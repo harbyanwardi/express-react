@@ -32,6 +32,7 @@ const KategoriEdit = () => {
     formData.append("title", title)
     formData.append("subtitle", subtitle)
     try {
+      const token = localStorage.getItem('token');
         const response = await axios.patch(`http://localhost:3000/updatekategori/${id}`, formData, {
             headers:{
                 "Content-Type": "multipart/form-data",

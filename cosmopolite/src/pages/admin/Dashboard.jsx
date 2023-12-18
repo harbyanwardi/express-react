@@ -11,7 +11,8 @@ const Dashboard = () => {
     useEffect(() => {
         refreshToken()
     }, [])
-
+    //const data = localStorage.getItem('data');
+    console.log(data)
 
     if (data.role !== 'admin') {
         return navigate('/')

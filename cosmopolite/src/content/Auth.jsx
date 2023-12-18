@@ -3,6 +3,7 @@ import {  useNavigate } from 'react-router-dom';
 import image from '../assets/images/rg.svg'
 import image2 from '../assets/images/lg.svg'
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const AuthForm = ({ type }) => {
     const [isLogin, setIsLogin] = useState(type === 'login');
@@ -33,7 +34,8 @@ const AuthForm = ({ type }) => {
       });
   
       setRole(response.data.role)
-      setToken(response.data.accessToken)
+      localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('role', response.data.role.toLowerCase());
      
       if (response.data.role.toLowerCase() === "admin") {
           navigate('/admin');

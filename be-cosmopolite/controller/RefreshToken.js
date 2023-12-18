@@ -3,17 +3,21 @@ import db from '../database/Database.js';
 
 export const refreshToken = async (req, res) => {
   try {
-    const refreshToken = req.headers.token;
+    const bearerHeader = req.headers['authorization'];
+    console.log(bearerHeader);
+    const refreshToken = bearerHeader.split(' ')[1];
     if (!refreshToken) return res.status(401).json({ status: false, message: 'Refresh token is required' });
 
     const [user] = await db.query('SELECT * FROM tbl_users WHERE refresh_token = ?', [refreshToken]);
+    console.log(user)
 
-    if (!user[0]) {
-      return res.sendStatus(403);
-    }
+    // if (!user[0]) {
+    //   return res.sendStatus(403);
+    // }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
       if (err) {
+        console.log(err)
         return res.sendStatus(403);
       }
 

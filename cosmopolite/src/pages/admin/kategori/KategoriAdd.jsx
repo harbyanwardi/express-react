@@ -26,6 +26,7 @@ const KategoriAdd = () => {
     e.preventDefault();
   
     try {
+      const tokenLocal = localStorage.getItem('token');
       const response = await axios.post(
         "http://localhost:3000/savekategori",
         {
@@ -35,7 +36,7 @@ const KategoriAdd = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${tokenLocal}`,
           },
         }
       );

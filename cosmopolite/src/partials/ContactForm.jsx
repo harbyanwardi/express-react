@@ -25,7 +25,7 @@ const ContactFormSection = () => {
     const [feedback, setfeedback] = useState("");
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
-    const { token, data, refreshToken} = useTokenRefresh()
+    const { refreshToken} = useTokenRefresh()
   
     useEffect(() => {
       refreshToken();
@@ -42,9 +42,12 @@ const ContactFormSection = () => {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/me/${data.userId}`, {
+      const tokenLocal = localStorage.getItem('token');
+      const dataLocal = localStorage.getItem('data');
+      console.log("userId :", dataLocal.userId)
+      const response = await axios.get(`http://localhost:3000/me/${dataLocal.userId}`, {
         headers:{
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${tokenLocal}`
       }
       });
       setname(response.data.name);

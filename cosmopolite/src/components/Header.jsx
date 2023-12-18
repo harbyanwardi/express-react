@@ -5,22 +5,24 @@ import useTokenRefresh from '../controllers/useToken';
 
 const MainHeader = ({bg, bgnav}) => {
     const navigate = useNavigate()
-    const { data,  refreshToken } = useTokenRefresh()
+    // const { data,  refreshToken } = useTokenRefresh()
 
-    useEffect(() => {
-      refreshToken()
-    }, [])
+    // useEffect(() => {
+    //   refreshToken()
+    // }, [])
 
     const Logout = async () => {
       try {
-        await axios.delete('http://localhost:3000/logout')      
-        window.location.reload();
+        //await axios.delete('http://localhost:3000/logout')     
+        localStorage.removeItem('token');
+        localStorage.removeItem('data'); 
+        navigate('/');
       } catch(error) {
         console.log(error)
       }
     }
 
-    console.log("data", data)
+    
 
     const handlehome = () => {
         navigate('/home')

@@ -27,6 +27,7 @@ const KategoriAll = () => {
 
   const handleDelete = async (kategoriId) => {
     try {
+      const token = localStorage.getItem('token');
       await axiosJWT.delete(`http://localhost:3000/deletekategori/${kategoriId}`, {
         headers: {
           Authorization: `Bearer ${token}`,

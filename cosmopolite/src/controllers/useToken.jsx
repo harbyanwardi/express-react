@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const useTokenRefresh = () => {
   const [username, setName] = useState('');
@@ -13,11 +14,14 @@ const useTokenRefresh = () => {
 
   const refreshToken = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/token',{
-        headers: {
-          token: token
-        }
-      });
+      // Dapatkan token dari localStorage
+      const tokenLocal = localStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${tokenLocal}`,
+        'Content-Type': 'application/json', // Adjust content type as needed
+      };
+      console.log('tokennn: ', tokenLocal);
+      const response = await axios.get('http://localhost:3000/token',{ headers });
       setToken(response.data.accessToken);
       const decoded = jwtDecode(response.data.accessToken);
       setName(decoded.username);

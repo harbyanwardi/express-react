@@ -79,7 +79,7 @@ export const Login = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    //await db.query('UPDATE tbl_users SET refresh_token = ? WHERE id = ?', [refreshToken, userId]);
+    await db.query('UPDATE tbl_users SET refresh_token = ? WHERE id = ?', [accessToken, userId]);
 
     res.cookie('refreshToken', accessToken, {
         httpOnly: true,
@@ -96,7 +96,7 @@ export const Login = async (req, res) => {
 
 export const Me = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.headers.token;
     if (!refreshToken) return res.status(204);
     const [user] = await db.query('SELECT * FROM tbl_users WHERE refresh_token = ?', [refreshToken]);
 
@@ -113,7 +113,7 @@ export const Me = async (req, res) => {
 };
 
 export const Logout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.headers.token;
   if (!refreshToken) return res.status(204);
   const [user] = await db.query('SELECT * FROM tbl_users WHERE refresh_token = ?', [refreshToken]);
 
